@@ -1,19 +1,10 @@
-name: Terraform AWS Infrastructure
+name: Terraform Plan
 
 on:
-  workflow_dispatch:   # allows manual runs
-    inputs:
-      action:          # choose whether to run plan or apply
-        description: 'Terraform action to perform'
-        required: true
-        default: 'plan'
-        type: choice
-        options:
-          - plan
-          - apply
+  workflow_dispatch: # run manually
 
 jobs:
-  terraform:
+  terraform-plan:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,9 +25,10 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        if: ${{ github.event.inputs.action == 'plan' }}
         run: terraform plan -out=tfplan
 
-      - name: Terraform Apply
-        if: ${{ github.event.inputs.action == 'apply' }}
-        run: terraform apply -auto-approve tfplan
+      - name: Upload plan artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: tfplan
