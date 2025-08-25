@@ -1,7 +1,6 @@
 # Create an S3 bucket
 resource "aws_s3_bucket" "priya_my_bucket" {
-  bucket = "my-terraform-demo-bucket-12345"
-  acl    = "private"
+  bucket = "my-terraform-demo-bucket-123456650"
 }
 
 # Create an EC2 instance
